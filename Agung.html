@@ -1,0 +1,698 @@
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+  .custom-button {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    position: relative;
+    background-color: transparent;
+    color: #00bfff;
+    font-weight: bold;
+    
+    border-radius: 8px;
+    padding: 12px 20px;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .custom-button::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background-color: transparent;
+    border: 1px solid #00bfff;
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  .custom-button:hover {
+    background-color: #333;
+    color: #00ff00;
+    border: 2px solid #00ff00;
+  }
+  
+/* Animasi untuk muncul dengan efek smooth */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Terapkan animasi pada elemen yang Anda inginkan */
+.container {
+  animation: slide-in 0.5s ease-in-out; /* Atur durasi dan efek animasi */
+}
+
+/* Animasi untuk muncul dengan efek geser dari kiri ke kanan */
+@keyframes slide-in-left-to-right {
+  from {
+    opacity: 0;
+    transform: translateX(-20px); /* Geser dari kiri */
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0); /* Kembali ke posisi awal */
+  }
+}
+
+/* Terapkan animasi pada elemen input */
+.input-animation {
+  animation: slide-in-left-to-right 0.5s ease-in-out; /* Atur durasi dan efek animasi */
+}
+
+.border-custom {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+  
+</style>
+
+<style>
+    .lds-spinner {
+      color: official;
+      display: inline-block;
+      position: relative;
+      width: 64px;
+      height: 64px;
+    }
+    .lds-spinner div {
+      transform-origin: 32px 32px;
+      animation: lds-spinner 1.2s linear infinite;
+    }
+    .lds-spinner div:after {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 3px;
+      left: 29px;
+      width: 5px;
+      height: 14px;
+      border-radius: 20%;
+      background: #000;
+    }
+    .lds-spinner div:nth-child(1) {
+      transform: rotate(0deg);
+      animation-delay: -1.1s;
+    }
+    .lds-spinner div:nth-child(2) {
+      transform: rotate(30deg);
+      animation-delay: -1s;
+    }
+    .lds-spinner div:nth-child(3) {
+      transform: rotate(60deg);
+      animation-delay: -0.9s;
+    }
+    .lds-spinner div:nth-child(4) {
+      transform: rotate(90deg);
+      animation-delay: -0.8s;
+    }
+    .lds-spinner div:nth-child(5) {
+      transform: rotate(120deg);
+      animation-delay: -0.7s;
+    }
+    .lds-spinner div:nth-child(6) {
+      transform: rotate(150deg);
+      animation-delay: -0.6s;
+    }
+    .lds-spinner div:nth-child(7) {
+      transform: rotate(180deg);
+      animation-delay: -0.5s;
+    }
+    .lds-spinner div:nth-child(8) {
+      transform: rotate(210deg);
+      animation-delay: -0.4s;
+    }
+    .lds-spinner div:nth-child(9) {
+      transform: rotate(240deg);
+      animation-delay: -0.3s;
+    }
+    .lds-spinner div:nth-child(10) {
+      transform: rotate(270deg);
+      animation-delay: -0.2s;
+    }
+    .lds-spinner div:nth-child(11) {
+      transform: rotate(300deg);
+      animation-delay: -0.1s;
+    }
+    .lds-spinner div:nth-child(12) {
+      transform: rotate(330deg);
+      animation-delay: 0s;
+    }
+    @keyframes lds-spinner {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .fade-in {
+      animation: fade-in 0.3s ease-in;
+    }
+
+    .fade-out {
+      animation: fade-out 0.3s ease-out;
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fade-out {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    
+    .border-custom {
+box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    }
+    
+    .input-custom{
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    }
+  </style>
+
+
+<div class="border-custom min-h-screen text-white flex flex-col justify-center items-center" translate="no">
+<div class="container mx-auto">
+  <div class="grid grid-cols-2 gap-2 mx-4"> <!-- Mengurangi margin antara tombol -->
+    <div class="col-span-2">
+      <div class="grid grid-cols-2 gap-2">
+        <div class="col-span-1 mt-2"> <!-- Mengurangi margin atas tombol -->
+          <button class="custom-button" onclick="addInput('sosial', 'fab fa-youtube', 'Url Channel', 'subs', 'Url Channel', 'https?://.+')">
+            <i class="fab fa-youtube mr-2"></i> Add Btn Subs
+          </button>
+        </div>
+        <div class="col-span-1 mt-2"> <!-- Mengurangi margin atas tombol -->
+          <button class="custom-button" onclick="addInput('tujuan', 'fas fa-download', 'Url Download', 'dwn', 'Url Download...', 'https?://.+')">
+            <i class="fas fa-download mr-2"></i> Add Download
+          </button>
+        </div>
+        <div class="col-span-1 mt-2"> <!-- Mengurangi margin atas tombol -->
+          <button class="custom-button" onclick="addInput('sosial', 'fas fa-thumbs-up', 'Url Video', 'like', 'Url Video', 'https?://.+')">
+            <i class="fas fa-thumbs-up mr-2"></i> Add Like Video
+          </button>
+        </div>
+        <div class="col-span-1 mt-2"> <!-- Mengurangi margin atas tombol -->
+          <button class="custom-button" onclick="addInput('sosial', 'fas fa-bell', 'Url Channel', 'lon', 'Url Youtube Channel...', 'https?://.+')">
+            <i class="fas fa-bell mr-2"></i> Add Sub & Bell
+          </button>
+        </div>
+        <div class="col-span-1 mt-2"> <!-- Mengurangi margin atas tombol -->
+          <button class="custom-button" onclick="addInput('sosial', 'fab fa-instagram', 'Url Profile IG', 'ig', 'Url Profile Instagram...', 'https?://.+')">
+            <i class="fab fa-instagram mr-2"></i> Add Follow IG
+          </button>
+        </div>
+        <div class="col-span-1 mt-2"> <!-- Mengurangi margin atas tombol -->
+          <button class="custom-button" onclick="addInput('sosial', 'fab fa-facebook', 'Url Profile FB', 'fb', 'Url Profile Facebook...', 'https?://.+')">
+            <i class="fab fa-facebook mr-2"></i> Add Follow FB
+          </button>
+        </div>
+        <div class="col-span-1 mt-2"> <!-- Mengurangi margin atas tombol -->
+          <button class="custom-button" onclick="addInput('sosial', 'fab fa-tiktok', 'Url Tiktok', 'tiktok', 'Url Tiktok Channel...', 'https?://.+')">
+            <i class="fab fa-tiktok mr-2"></i> Add Follow Tiktok
+          </button>
+        </div>
+        <div class="col-span-1 mt-2"> <!-- Mengurangi margin atas tombol -->
+          <button class="custom-button" onclick="addPassword();">
+            <i class="fas fa-lock mr-2"></i> Add Password
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mx-auto">
+  <form id="myForm" method="POST" action="" class=" text-white p-4 rounded-lg shadow-lg">
+    <div class="mb-4">
+      <label for="judul" class="block text-white">Your Title</label>
+      <input type="text" placeholder="Enter Your Title..." class="form-control input-custom rounded bg-gray-100 text-gray-900 py-2 px-4 w-full" id="judul" />
+    </div>
+
+    <div id="sosial" class="mb-4">
+      <div class="url-input-group fade-in">
+        <div class="flex items-center">
+          <i class="fab fa-youtube text-red-500 text-lg"></i>
+          <label for="subs" class="ml-2 text-white">Url Channel</label>
+        </div>
+        <div class="flex items-center">
+          <input id="subs" placeholder="Url Channel" type="text" class="form-control input-custom url-input rounded bg-gray-100 text-gray-900 py-2 px-4 w-full" pattern="https?://.+" required />
+          <button type="button" class="btn btn-danger px-2 py-1 ml-2 rounded bg-red-500 hover:bg-red-600 text-white" style="font-size: 1em;" onclick="removeInput(this)"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full h-1 bg-white rounded"></div>
+
+    <div id="tujuan" class="mb-4">
+      <div class="url-input-group fade-in">
+        <div class="flex items-center">
+          <i class="fas fa-download text-blue-500 text-lg"></i>
+          <label for="dwn" class="ml-2 text-white">Url Download</label>
+        </div>
+        <div class="flex items-center">
+          <input id="dwn" placeholder="Url Download..." type="text" class="form-control input-custom url-input rounded bg-gray-100 text-gray-900 py-2 px-4 w-full" pattern="https?://.+" required />
+          <button type="button" class="btn btn-danger px-2 py-1 ml-2 rounded bg-red-500 hover:bg-red-600 text-white" style="font-size: 1em;" onclick="removeInput(this)"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4 relative">
+      <label for="foto" class="text-white">Thumbnails:</label>
+      <div id="file-drop-zone" class="border-dashed border-2 border-gray-300 bg-gray-100 rounded-lg p-2 text-center">
+        <div class="text-gray-400">
+          <i class="fas fa-cloud-upload-alt text-2xl"></i>
+          <p class="mt-1">Drag & Drop or Click to Upload</p>
+        </div>
+      </div>
+      <input type="file" class="hidden" id="foto" accept="image/*" />
+    </div>
+
+
+    <div class="mb-4">
+      <label for="tanggal" class="text-white">Select Expired Link</label>
+      <input type="date" class="input-custom input-custom rounded bg-gray-100 text-gray-900 py-2 px-4 w-full" id="tanggal" />
+    </div>
+
+    <div class="mb-4">
+      <button type="submit" class="btn custom-button py-2 px-4 w-full bg-blue-500 hover:bg-blue-600">Generate Link</button>
+    </div>
+
+    <div id="shortlinkContainer" class="hidden">
+      <div class="mb-4">
+        <label for="shortlink" class="text-white">Shortlink</label>
+        <div class="flex items-center">
+          <input type="text" class="form-control input-custom rounded bg-gray-100 text-gray-900 py-2 px-4 w-full" id="shortlink" readonly />
+          <button type="button" class="btn btn-primary py-2 px-4 ml-2 bg-blue-500 hover:bg-blue-600 rounded-full" onclick="copyLink()">Salin</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+
+
+
+<script>
+  const fileInput = document.getElementById('foto');
+  const fileDropZone = document.getElementById('file-drop-zone');
+
+  fileDropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    fileDropZone.classList.add('border-blue-500');
+  });
+
+  fileDropZone.addEventListener('dragleave', () => {
+    fileDropZone.classList.remove('border-blue-500');
+  });
+
+  fileDropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    fileDropZone.classList.remove('border-blue-500');
+
+    const droppedFiles = e.dataTransfer.files;
+
+    if (droppedFiles.length > 0) {
+      fileInput.files = droppedFiles;
+    }
+  });
+
+  fileDropZone.addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', () => {
+    const fileName = fileInput.files[0]?.name || 'No file chosen';
+    fileDropZone.querySelector('p').textContent = fileName;
+  });
+</script>
+
+
+<script>
+  var fotoInputVisible = false;
+
+function addInput(parentId, iconClass, labelText, inputId, placeholder, pattern) {
+  var inputContainer = document.getElementById(parentId);
+  var inputGroup = document.createElement('div');
+  inputGroup.className = 'url-input-group form-group fade-in mt-3';
+  inputGroup.innerHTML = `
+    <div class="flex items-center">
+      <i class="${iconClass} text-lg text-red-500" style="width: 1em;"></i> 
+      <label for="${inputId}" class="ml-2 text-white">${labelText}</label>
+    </div>
+    <div class="flex items-center">
+      <input id="${inputId}" placeholder="${placeholder}" type="text" class="form-control url-input rounded bg-gray-100 text-gray-900 py-2 px-4 w-full input-custom" ${pattern ? 'pattern="' + pattern + '"' : ''} required/>
+      <button type="button" class="btn btn-danger px-2 py-1 ml-2 rounded bg-red-500 hover:bg-red-600 text-white" style="font-size: 1em;" onclick="removeInput(this)"><i class="fas fa-times"></i></button>
+    </div>
+  `;
+
+  inputContainer.appendChild(inputGroup);
+  var newInput = document.getElementById(inputId);
+  newInput.classList.add('input-animation');
+}
+
+
+// JavaScript for adding a password field
+var passwordAdded = false;
+
+function addPassword() {
+  if (!passwordAdded) {
+    var inputContainer = document.getElementById('tujuan');
+
+    var passwordInputGroup = document.createElement('div');
+    passwordInputGroup.className = 'url-input-group form-group fade-in';
+    passwordInputGroup.innerHTML = `
+      <div class="flex items-center">
+        <i class="fas fa-lock text-lg text-blue-500"></i> 
+        <label for="password" class="ml-2 text-white">Password</label>
+      </div>
+      <div class="flex items-center">
+        <input id="password" placeholder="Enter Password..." type="text" class="form-control url-input rounded bg-gray-100 text-gray-900 py-2 px-4 w-full input-custom" />
+      <button type="button" class="btn btn-danger px-2 py-1 ml-2 rounded bg-red-500 hover:bg-red-600 text-white" style="font-size: 1em;" onclick="removeInput(this)"><i class="fas fa-times"></i></button>
+      </div>
+    `;
+
+    inputContainer.appendChild(passwordInputGroup);
+    passwordAdded = true;
+  }
+}
+
+
+
+  // Fungsi untuk menampilkan atau menyembunyikan inputan file foto
+  function showFotoInput() {
+    var fotoInputContainer = document.getElementById('fotoInputContainer');
+    var fotoInput = document.getElementById('foto');
+
+    if (!fotoInputVisible) {
+      fotoInputContainer.style.display = 'block';
+      fotoInputVisible = true;
+    } else {
+      fotoInputContainer.style.display = 'none';
+      fotoInputVisible = false;
+    }
+  }
+
+  // Fungsi untuk menghapus inputan URL
+  function removeInput(button) {
+    var urlInputGroup = button.closest('.url-input-group');
+    urlInputGroup.parentNode.removeChild(urlInputGroup);
+  }
+
+  // Fungsi untuk menyalin link ke clipboard dan menampilkan pesan
+  function copyLink() {
+    var shortlinkInput = document.getElementById('shortlink');
+    shortlinkInput.select();
+    shortlinkInput.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+
+    Swal.fire({
+      title: 'Berhasil!',
+      text: 'Tautan berhasil disalin!',
+      icon: 'success',
+      timer: 2000,
+      showConfirmButton: false
+    });
+  }
+
+  // Fungsi untuk menampilkan atau menyembunyikan indikator loading
+  function showLoadingIndicator(show) {
+    var loadingIndicator = document.getElementById('loadingIndicator');
+    if (show) {
+      loadingIndicator.style.display = 'block';
+    } else {
+      loadingIndicator.style.display = 'none';
+    }
+  }
+
+  // Fungsi untuk menampilkan atau menyembunyikan inputan hasil link
+  function showShortlinkContainer(show) {
+    var shortlinkContainer = document.getElementById('shortlinkContainer');
+    if (show) {
+      shortlinkContainer.style.display = 'block';
+    } else {
+      shortlinkContainer.style.display = 'none';
+    }
+  }
+
+  // Fungsi untuk mengenerate link
+// Replace 'YOUR_GITHUB_API_ACCESS_TOKEN', 'YOUR_USERNAME', and 'YOUR_REPO_NAME' with your actual GitHub API access token, GitHub username, and repository name.
+var githubAccessToken = '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';
+var githubUsername = 'AgungDevlop';
+var githubRepoName = 'Viral';
+
+function uploadImageToGitHub(file) {
+  return new Promise(function(resolve, reject) {
+    var reader = new FileReader();
+
+    reader.onload = function(event) {
+      var fileContent = event.target.result.split(',')[1]; // Extract base64 content
+
+      var fileName = file.name;
+      var filePath = 'subs4unlock/' + fileName;
+      
+      // Check if the file with the same name exists
+      fetch('https://api.github.com/repos/' + githubUsername + '/' + githubRepoName + '/contents/' + filePath, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'token ' + githubAccessToken,
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message !== 'Not Found') {
+            // If file with the same name exists, add a random ID to the file name
+            const randomID = Math.random().toString(36).substring(7);
+            fileName = randomID + '-' + fileName;
+            filePath = 'subs4unlock/' + fileName;
+          }
+
+          var fileData = {
+            message: 'Upload image',
+            content: fileContent
+          };
+
+          // Upload the file with the updated file name
+          fetch('https://api.github.com/repos/' + githubUsername + '/' + githubRepoName + '/contents/' + filePath, {
+            method: 'PUT',
+            headers: {
+              'Authorization': 'token ' + githubAccessToken,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(fileData)
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Failed to upload image to GitHub.');
+              }
+              return response.json();
+            })
+            .then(data => {
+              if (!data.content || !data.content.download_url) {
+                throw new Error('Invalid response from GitHub API.');
+              }
+
+              var imageURL = data.content.download_url;
+              resolve(imageURL);
+            })
+            .catch(error => {
+              reject(error);
+            });
+        })
+        .catch(error => {
+          reject(error);
+        });
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+
+
+// Variabel global untuk menyimpan data targetURL
+var targetURL = [];
+
+const url = 'https://agungputraa.github.io/subs4me.github.io/urls.json';
+
+// Mengambil data JSON dari GitHub
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    if (data.urls) {
+      targetURL = data.urls; 
+    } else {
+      console.error('Data JSON tidak memiliki kunci "urls".');
+    }
+  })
+  .catch(error => {
+    console.error('Terjadi kesalahan saat mengambil data JSON:', error);
+  });
+
+// Fungsi untuk memilih URL secara acak dari array targetURL
+function getRandomURL() {
+  var randomIndex = Math.floor(Math.random() * targetURL.length);
+  return targetURL[randomIndex];
+}
+
+function generateLink() {
+  Swal.fire({
+    title: 'Generate Link...',
+    html: '<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>',
+    allowOutsideClick: false,
+    showCancelButton: false,
+    showConfirmButton: false,
+    onBeforeOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  var judulInput = document.getElementById('judul');
+  var judulValue = judulInput.value;
+  var encodedJudul = btoa(judulValue);
+
+  var tanggalInput = document.getElementById('tanggal');
+  var tanggalValue = tanggalInput.value;
+  var encodedTanggal = '';
+
+  if (tanggalValue) {
+    encodedTanggal = btoa(tanggalValue);
+  }
+
+  var urlInputs = document.getElementsByClassName('url-input');
+  var inputCount = {};
+  var urlArray = [];
+  var urlCounter = {};
+
+  for (var i = 0; i < urlInputs.length; i++) {
+    if (urlInputs[i].value) {
+      var inputId = urlInputs[i].id;
+
+      if (!inputCount[inputId]) {
+        inputCount[inputId] = 1;
+      } else {
+        inputCount[inputId]++;
+      }
+
+      var encodedUrl = btoa(urlInputs[i].value);
+      var parameterName = inputId + (inputCount[inputId] > 1 ? inputCount[inputId] : '');
+
+      if (!urlCounter[inputId]) {
+        urlCounter[inputId] = 1;
+      } else {
+        urlCounter[inputId]++;
+      }
+
+      parameterName = inputId + urlCounter[inputId];
+
+      urlArray.push({ id: parameterName, value: encodedUrl });
+    }
+  }
+
+  var fotoInput = document.getElementById('foto');
+  var fotoFile = fotoInput.files[0];
+
+  if (fotoFile) {
+    uploadImageToGitHub(fotoFile)
+      .then(imageURL => {
+        var encodedImageURL = btoa(imageURL);
+
+        var queryParameters = [];
+        queryParameters.push('judul=' + encodeURIComponent(encodedJudul));
+
+        if (encodedTanggal) {
+          queryParameters.push('tanggal=' + encodeURIComponent(encodedTanggal));
+        }
+
+        queryParameters.push('foto=' + encodeURIComponent(encodedImageURL));
+
+        for (var j = 0; j < urlArray.length; j++) {
+          var urlParam = urlArray[j].id + '=' + encodeURIComponent(urlArray[j].value);
+          queryParameters.push(urlParam);
+        }
+          shortenWithFirebase(queryParameters);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Swal.close();
+      });
+  } else {
+    var queryParameters = [];
+    queryParameters.push('judul=' + encodeURIComponent(encodedJudul));
+
+    if (encodedTanggal) {
+      queryParameters.push('tanggal=' + encodeURIComponent(encodedTanggal));
+    }
+
+    for (var j = 0; j < urlArray.length; j++) {
+      var urlParam = urlArray[j].id + '=' + encodeURIComponent(urlArray[j].value);
+      queryParameters.push(urlParam);
+    }
+      shortenWithFirebase(queryParameters);
+  }
+}
+
+function shortenWithFirebase(queryParameters) {
+  var dynamicLinkEndpoint = 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyAbnjXlZcVipHSXcBO1IqXkzCbDloH4lZM';
+
+  fetch(dynamicLinkEndpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      dynamicLinkInfo: {
+        domainUriPrefix: 'gwganteng.page.link',
+        link: getRandomURL() + '?' + queryParameters.join('&'),
+      },
+     suffix: {
+          option: 'SHORT'
+        }
+    }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      var shortlink = data.shortLink;
+      document.getElementById('shortlink').value = shortlink;
+
+      Swal.close();
+      showShortlinkContainer(true);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      Swal.close();
+    });
+}
+
+
+document.getElementById('myForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  generateLink();
+});
+
+</script>
+
