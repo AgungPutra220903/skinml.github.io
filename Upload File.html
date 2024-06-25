@@ -1,0 +1,310 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Add Tailwind CSS library -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-900 to-purple-900">
+  <div class="bg-white p-8 rounded-lg shadow-lg">
+    <div class="text-center mb-4">
+      <p class="text-gray-600">Maximal File Upload: 100MB</p>
+    </div>
+
+    <div
+      id="dropArea"
+      class="border-dashed border-2 border-gray-400 rounded-lg p-4 text-center cursor-pointer"
+      ondragover="handleDragOver(event)"
+      ondrop="handleDrop(event)"
+      onclick="fileInput.click()"
+    >
+      <svg
+        class="w-16 h-16 mx-auto mb-4 text-blue-500"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 48 48"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7 7 7m0 0l7-7-7-7"
+        ></path>
+      </svg>
+      <p class="text-gray-600 mb-2">Drag and drop file here</p>
+      <p class="text-gray-600">(or click to select)</p>
+      <input
+        type="file"
+        id="fileInput"
+        class="hidden"
+        onchange="handleFileSelect(event)"
+      />
+    </div>
+
+    <p id="fileName" class="text-center text-gray-600 mt-2">Tidak ada file yang dipilih</p>
+
+    <button
+      onclick="uploadFile()"
+      class="w-full py-3 px-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue transition duration-300 ease-in-out mt-4"
+    >
+      Upload
+    </button>
+
+    <div class="mt-4 relative">
+      <progress
+        class="w-full h-2 bg-gray-300 rounded-full"
+        id="uploadProgress"
+        max="100"
+        value="0"
+        style="display: none;"
+      ></progress>
+    </div>
+
+    <div class="flex justify-between mt-4">
+      <input
+        style="display: none; padding: 8px 15px; border: 1px solid #17c671; border-radius: 25px; width: 70%; color:black; text-align: center;"
+        type="text"
+        id="downloadLink1"
+        readonly
+      />
+      <button
+        id="copyButton"
+        class="w-28 py-3 px-4 bg-gray-700 text-white rounded-full hover:bg-gray-600 focus:outline-none focus:shadow-outline-gray transition duration-300 ease-in-out"
+        onclick="copy()"
+        style="display: none;"
+      >
+        Copy
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const dropArea = document.getElementById("dropArea");
+  const fileInput = document.getElementById("fileInput");
+  const fileNameDisplay = document.getElementById("fileName");
+
+  function handleDragOver(event) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "copy";
+  }
+
+  function handleDrop(event) {
+    event.preventDefault();
+    fileInput.files = event.dataTransfer.files;
+    handleFileSelect(event);
+  }
+
+function handleFileSelect(event) {
+        const file = event.target.files[0];
+
+        if (!file) {
+          return; // No file selected
+        }
+
+        const allowedExtension = ".mp4";
+        if (!file.name.endsWith(allowedExtension)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'File format tidak didukung',
+            text: 'Mohon pilih file video dengan format .mp4',
+            confirmButtonText: 'Oke'
+          });
+          fileInput.value = ""; // Clear the file input
+          return;
+        }
+
+        // File is an MP4, proceed with other actions
+        const fileName = file.name;
+        fileNameDisplay.innerText = `File terpilih: ${fileName}`;
+      }
+      
+  function selectRandomURL(urls) {
+    const randomIndex = Math.floor(Math.random() * urls.length);
+    return urls[randomIndex];
+  }
+
+  function updateFileName() {
+    const fileInput = document.getElementById("fileInput");
+    const customFileInput = document.querySelector(".custom-file-input");
+
+    if (fileInput.files.length > 0) {
+      customFileInput.textContent = fileInput.files[0].name;
+    } else {
+      customFileInput.textContent = "Pilih file";
+    }
+  }
+
+  function copy() {
+    const downloadLinkInput = document.getElementById('downloadLink1');
+    downloadLinkInput.select();
+    document.execCommand('copy');
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Link Copied!',
+      text: 'The link has been copied to your clipboard.',
+      showConfirmButton: false,
+      timer: 1500 // Timer for automatic closing after 1.5 seconds
+    });
+  }
+
+  const urls = [
+    'https://agung.apkspace.my.id/2023/09/alight-motion-mod-apk.html', 
+    'https://agung.apkspace.my.id/2023/09/inshot-pro-mod-unlocked.html', 
+    'https://agung.apkspace.my.id/2023/09/clash-of-clans-mod-server.html', 
+    'https://agung.apkspace.my.id/2023/03/ag-injector-3.html', 
+    'https://agung.apkspace.my.id/2023/03/an-injector-2.html', 
+    'https://agung.apkspace.my.id/2023/03/ae-injectod.html', 
+    'https://agung.apkspace.my.id/2023/03/rahsia-borong-dari-china.html', 
+    'https://agung.apkspace.my.id/2023/03/infinite-premium-account.html', 
+    'https://agung.apkspace.my.id/2023/03/script-arlot-lightning.html', 
+    'https://agung.apkspace.my.id/2023/02/ag-injector-2.html'
+  ];
+
+  const selectedURL = selectRandomURL(urls);
+
+  function sendApi(downloadLink) {
+    const downloadLinkInput = document.getElementById('downloadLink1');
+    const copyButton = document.getElementById('copyButton');
+    const encryptedDownloadLink = btoa(downloadLink);
+    var targetURL = selectedURL + `?dwn=${encodeURIComponent(encryptedDownloadLink)}`;
+
+    // URL untuk membuat Dynamic Link di Firebase
+    const dynamicLinkUrl = 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyBaeiFQcn1CqKtbvynFuo3HIKsxh5jAlmo';
+    
+    // Konfigurasi payload untuk Dynamic Link
+    const payload = {
+        dynamicLinkInfo: {
+            domainUriPrefix: "keepsite.page.link",
+            link: targetURL
+        },
+        suffix: {
+            option: "SHORT"
+        }
+    };
+
+    fetch(dynamicLinkUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        var shortlink = data.shortLink;
+        downloadLinkInput.value = shortlink;
+        downloadLinkInput.style.display = 'block';
+        copyButton.style.display = 'block';
+
+        Swal.close();
+        showShortlinkContainer(true);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+function generateRandomId() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomId = '';
+  for (let i = 0; i < 6; i++) {
+    randomId += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return randomId;
+}
+
+
+  function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (!file) {
+      alert('Please select a file to upload.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const progressElement = document.getElementById('uploadProgress');
+    progressElement.style.display = 'block';
+    progressElement.value = 0;
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.upload.onprogress = function (event) {
+      if (event.lengthComputable) {
+        const percentCompleted = Math.round((event.loaded * 100) / event.total);
+        progressElement.value = percentCompleted;
+      }
+    };
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 201) {
+          const responseData = JSON.parse(xhr.responseText);
+          const downloadLink = `https://gitlab.com/${responseData.full_path}`;
+          progressElement.style.display = 'none';
+          sendApi(downloadLink);
+          addToVideoJson(file.name, downloadLink);
+        } else {
+          alert('File upload failed.');
+          progressElement.style.display = 'none';
+        }
+      }
+    };
+
+    const gitLabAPIUrl = 'https://gitlab.com/api/v4/projects/48409720/uploads';
+    const personalAccessToken = 'glpat-gxtpEh_xmyP-dPTUyy_w';
+
+    xhr.open('POST', gitLabAPIUrl);
+    xhr.setRequestHeader('PRIVATE-TOKEN', personalAccessToken);
+    xhr.send(formData);
+  }
+
+function addToVideoJson(fileName, gitlabUrl) {
+  const apiUrl = 'https://api.github.com/repos/AgungDevlop/Viral/contents/Video.json';
+  const personalAccessToken = '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';
+
+  fetch(apiUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${personalAccessToken}`,
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      const existingJson = JSON.parse(atob(data.content));
+      const newEntry = { Judul: fileName, Url: gitlabUrl, id: generateRandomId() };
+      existingJson.push(newEntry);
+
+      // Convert to JSON with spacing for a block format
+      const updatedContent = btoa(JSON.stringify(existingJson, null, 2));
+
+      return fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${personalAccessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: 'Update Video.json',
+          content: updatedContent,
+          sha: data.sha,
+        }),
+      });
+    })
+    .then(response => {
+      if (response.status === 200) {
+        console.log('Video.json updated successfully.');
+      } else {
+        console.error('Failed to update Video.json.');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+</script> 
+
